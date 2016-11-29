@@ -1,6 +1,7 @@
 
-public abstract class Event {
+public class Event {
 
-	
+	private Type type;
+	private int N;
 	
 }
