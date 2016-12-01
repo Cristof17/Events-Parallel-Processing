@@ -67,10 +67,8 @@ class Worker extends Thread {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

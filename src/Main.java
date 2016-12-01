@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -41,6 +43,11 @@ public class Main {
 		BufferedWriter squareBuffer;
 		BufferedWriter fibBuffer 	;
 		
+		List<Result> primeResults = new ArrayList<Result>();
+		List<Result> squareResults = new ArrayList<Result>();
+		List<Result> factResults = new ArrayList<Result>();
+		List<Result> fibResults = new ArrayList<Result>();
+		
 		try {
 		primeBuffer = new BufferedWriter(new FileWriter(new File("PRIME.out")));
 		factBuffer 	= new BufferedWriter(new FileWriter(new File("FACT.out")));
@@ -50,15 +57,25 @@ public class Main {
 		for (Result result : results.getResults()){
 			switch(result.getType()){
 			case FACT:
+				factResults.add(result);
 				break;
 			case PRIME:
+				primeResults.add(result);
 				break;
 			case FIB:
+				fibResults.add(result);
 				break;
 			case SQUARE:
+				squareResults.add(result);
 				break;
 			}
 		}
+		
+		//sort the results
+		Collections.sort(primeResults);
+		Collections.sort(squareResults);
+		Collections.sort(fibResults);
+		Collections.sort(factResults);
 		
 		primeBuffer	.flush(); 
 		factBuffer 	.flush();
