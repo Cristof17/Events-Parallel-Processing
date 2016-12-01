@@ -15,6 +15,7 @@ public class Main {
 
 	private static int nrThreads = 0;
 	private static Worker[] workers;
+	private static ArrayList<Result> results;
 	
 	public static void main(String[] args){
 		
@@ -28,9 +29,10 @@ public class Main {
 		
 		//create the queue with the given size
 		WorkPool workPool = new WorkPool(nrThreads, Integer.parseInt(args[0]));
+		results = new ArrayList<Result>();
 		workers = new Worker[nrThreads];
 		for (int i = 0; i < nrThreads; ++i){
-			workers[i] = new Worker(workPool, args[i + 2]);
+			workers[i] = new Worker(workPool, args[i + 2], results);
 		}
 
 		generateEvents(workers, workPool);

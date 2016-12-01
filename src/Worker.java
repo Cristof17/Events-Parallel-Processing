@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
@@ -10,10 +11,12 @@ import java.util.StringTokenizer;
 class Worker extends Thread {
 	private WorkPool wp;
 	private String filename;
+	private ArrayList<Result> results;
 
-	public Worker(WorkPool workpool, String filename) {
+	public Worker(WorkPool workpool, String filename,ArrayList<Result> results ) {
 		this.wp = workpool;
 		this.filename = filename;
+		this.results = results;
 	}
 
 	/**
@@ -22,7 +25,24 @@ class Worker extends Thread {
 	 * Daca s-a ajuns la o solutie finala, aceasta va fi afisata.
 	 */
 	void processEvent(Event e) {
-		//...
+		switch(e.getType()){
+		case PRIME:
+			int biggestPrime = prime(e.getN());
+			results.add(new Result(Type.PRIME, biggestPrime));
+			break;
+		case SQUARE:
+			int biggestSquare = square(e.getN());
+			results.add(new Result(Type.SQUARE, biggestSquare));
+			break;
+		case FACT:
+			int maxFactoral = maxFact(e.getN());
+			results.add(new Result(Type.FACT, maxFactoral));
+			break;
+		case FIB:
+			int maxFiboPos = maxFibbo(e.getN());
+			results.add(new Result(Type.FIB, maxFiboPos));
+			break;
+		}
 	}
 	
 	public void run() {
@@ -82,5 +102,71 @@ class Worker extends Thread {
 		}
 		System.out.println("Thread-ul worker " + this.getName() + " s-a terminat...");
 	}
+	
+	private static boolean isPrime(int N){
+		for (int i = 2; i < Math.sqrt(N); ++i)
+			if ((N % i) == 0)
+				return false;
+		return true;
+	}
+
+	static int prime(int max){
+		if (max == 0)
+			return max;
+		if (max == 1)
+			return max;
+		int maxPrime = -1;
+		for (int i = 2; i <= max; ++i){
+			if (isPrime(i))
+				maxPrime = i;
+		}
+		return maxPrime;
+	}
+	
+	static int square(int N){
+		int maxSquare = -1;
+		for (int i = 0; i <= Math.sqrt(N); ++i){
+			if (i * i <= N)
+				maxSquare = i;
+		}
+		return maxSquare;
+	}
+	
+	static int maxFact(int max){
+		int maxFact = -1;
+		for (int i = 0; i < max; ++i){
+			if (fact(i) <= max)
+				maxFact = i;
+		}
+		return maxFact;
+	}
+	
+	//do the factorial iterative
+	static int fact(int N){
+		int prod = 1;
+		int i = 1; 
+		while (i <= N){
+			prod *= i++; 
+		}
+		return prod;
+	}
+	
+	
+	static int maxFibbo(int max){
+		int maxPos = -1;
+		for (int i = 0; i <= max; ++i){
+			if (fibbo(i) <= max){				
+				maxPos = i;
+			}
+		}
+		return maxPos;
+	}
+	
+	static int fibbo(int n){
+		if (n == 0 || n == 1)
+			return 1;
+		return fibbo(n -1) + fibbo(n -2);
+	}
+	
 }
 
