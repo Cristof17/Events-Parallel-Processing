@@ -12,5 +12,9 @@ public class Main {
 		
 		//each thread has it's file 
 		nrThreads = args.length - 2;
+		
+		//create the queue with the given size
+		WorkPool workPool = new WorkPool(nrThreads, Integer.parseInt(args[1]));
+		
 	}
 }
