@@ -25,6 +25,7 @@ class Worker extends Thread {
 	 * Daca s-a ajuns la o solutie finala, aceasta va fi afisata.
 	 */
 	void processEvent(Event e) {
+		System.out.println("Executing " + e.getN() + " " + e.getType());
 		switch(e.getType()){
 		case PRIME:
 			int biggestPrime = prime(e.getN());
@@ -155,17 +156,22 @@ class Worker extends Thread {
 	static int maxFibbo(int max){
 		int maxPos = -1;
 		for (int i = 0; i <= max; ++i){
-			if (fibbo(i) <= max){				
+			System.out.println(fibbo(i, 1, 0) + " ");
+			if (fibbo(i, 1,0) <= max){				
 				maxPos = i;
-			}
+			}else
+				break;
 		}
 		return maxPos;
 	}
 	
-	static int fibbo(int n){
-		if (n == 0 || n == 1)
-			return 1;
-		return fibbo(n -1) + fibbo(n -2);
+	static int fibbo(int term, int val, int prev){
+//		if (n == 0 || n == 1)
+//			return 1;
+//		return fibbo(n -1) + fibbo(n -2);
+		if(term == 0) return prev;
+		if(term == 1) return val;
+		return fibbo(term - 1, val+prev, val);
 	}
 	
 }
