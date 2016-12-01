@@ -4,6 +4,13 @@ public class Event {
 	private Type type;
 	private int N;
 	private int time;
+	
+	public Event(Type type, int N, int time){
+		this.type = type;
+		this.N = N;
+		this.time = time;
+	}
+	
 	public Type getType() {
 		return type;
 	}

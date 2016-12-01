@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Results {
 
-	public Type type;
-	public List<Result> results;
+	private Type type;
+	private List<Result> results;
 	
 	public Results(int nrThreads, int nrEvents){
 		this.results = new ArrayList<Result>(nrThreads * nrEvents);	
@@ -16,18 +16,9 @@ public class Results {
 		else
 			results.add(new Result(e.getType()));
 	}
-		
-	private class Result{
-		public Type type;
-		public Result(Type type){
-			this.type =type;
-		}
-		public Type getType() {
-			return type;
-		}
-		public void setType(Type type) {
-			this.type = type;
-		}
-		
+			
+	public List<Result> getResults(){
+		return this.results;
 	}
 }
+
