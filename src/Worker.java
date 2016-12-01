@@ -30,30 +30,35 @@ class Worker extends Thread {
 			BufferedReader fileReader =  new BufferedReader(new FileReader(new File(filename)));
 			String line = fileReader.readLine();
 			StringTokenizer tokenizer;
-//			
+			
 			while (line != null){
 				tokenizer = new StringTokenizer(line, " ,");
 				String N = tokenizer.nextToken();
 				String name = tokenizer.nextToken();
 				String time = tokenizer.nextToken();
 				line = fileReader.readLine();
-//				
+				
 				Event ev = null;
 				switch(name){
 				case "FACT":
 					ev = new Event(Type.FACT, Integer.parseInt(N), Integer.parseInt(time));
-//					break;
+					break;
 				case "SQUARE":
 					ev = new Event(Type.SQUARE, Integer.parseInt(N), Integer.parseInt(time));
-//					break;
+					break;
 				case "FIB":
 					ev = new Event(Type.FIB, Integer.parseInt(N), Integer.parseInt(time));
-//					break;
+					break;
 				case "PRIME":
 					ev = new Event(Type.PRIME, Integer.parseInt(N), Integer.parseInt(time));
 					break;
 				}
 				tokenizer = null;
+				
+				//that's what it says in the homework
+				Thread.sleep(Integer.parseInt(time));
+				
+				//assign tasks to the work pool
 				wp.putWork(ev);
 			}
 			fileReader.close();
@@ -61,6 +66,12 @@ class Worker extends Thread {
 
 		} catch (IOException e1) {
 			e1.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		System.out.println("Thread-ul worker " + this.getName() + " a pornit...");
