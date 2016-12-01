@@ -71,20 +71,23 @@ public class WorkPool {
 	 * Functie care introduce un task in workpool.
 	 * @param sp - task-ul care trebuie introdus 
 	 */
-	synchronized void putWork(Event sp) {
-		System.out.println("WorkPool - adaugare task: " + sp);
+	synchronized void putWork(Event ev) {
+//		System.out.println("WorkPool - adaugare task: " + ev.getN() + " " + ev.getType());
 		try {
-			tasks.put(sp);
+			tasks.put(ev);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		/* anuntam unul dintre workerii care asteptau */
-		this.notify();
+		this.notifyAll();
 
 	}
 
-
+	public int getSize(){
+		return this.tasks.size();
+	}
+	
 }
 
 

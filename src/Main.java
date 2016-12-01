@@ -7,12 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class Main {
 
 	private static int nrThreads = 0;
 	private static Worker[] workers;
-	private static ArrayList<BufferedReader> buffers;
 	
 	public static void main(String[] args){
 		
@@ -24,25 +24,14 @@ public class Main {
 		//each thread has it's file 
 		nrThreads = args.length - 2;
 		
-		buffers = new ArrayList<BufferedReader>();
-		//create the buffers to read from
-		for (int i = 2; i < args.length; ++i){
-			try{
-				BufferedReader reader = new BufferedReader(new FileReader(new File(args[i])));
-				buffers.add(reader);
-			}catch (FileNotFoundException e){
-				e.printStackTrace();
-			}
-		}
-
 		//create the queue with the given size
-		WorkPool workPool = new WorkPool(nrThreads, Integer.parseInt(args[1]));
+		WorkPool workPool = new WorkPool(nrThreads, Integer.parseInt(args[0]));
 		workers = new Worker[nrThreads];
 		for (int i = 0; i < nrThreads; ++i){
-			workers[i] = new Worker(workPool, buffers.get(i));
+			workers[i] = new Worker(workPool, args[i + 2]);
 		}
-				
-		generateEvents(buffers, workers, workPool);
+
+		generateEvents(workers, workPool);
 	}
 	
 	public static void writeOutput(Results results){
@@ -71,10 +60,10 @@ public class Main {
 			}
 		}
 		
-		primeBuffer	.close(); 
-		factBuffer 	.close();
-		squareBuffer.close();
-		fibBuffer 	.close();
+		primeBuffer	.flush(); 
+		factBuffer 	.flush();
+		squareBuffer.flush();
+		fibBuffer 	.flush();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -83,7 +72,7 @@ public class Main {
 		
 	}
 	
-	public static void generateEvents(ArrayList<BufferedReader> buffers, Worker[] workers, WorkPool workPool){
+	public static void generateEvents(Worker[] workers, WorkPool workPool){
 		for (int i = 0; i < workers.length; ++i)
 			workers[i].start();
 	}
