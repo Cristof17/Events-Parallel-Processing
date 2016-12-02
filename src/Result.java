@@ -11,7 +11,7 @@ public class Result implements Comparable<Result>, Comparator<Result>{
 		
 		public Result(Type type, int val){
 			this.type =type;
-			this.val = 0;
+			this.val = val;
 		}
 	
 		public Type getType() {

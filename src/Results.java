@@ -6,15 +6,15 @@ public class Results {
 	private Type type;
 	private List<Result> results;
 	
-	public Results(int nrThreads, int nrEvents){
-		this.results = new ArrayList<Result>(nrThreads * nrEvents);	
+	public Results(){
+		this.results = new ArrayList<Result>();	
 	}
 	
-	public void add(Event e){
+	public void add(Result res){
 		if (results == null)
 			return;
 		else
-			results.add(new Result(e.getType()));
+			results.add(res);
 	}
 			
 	public List<Result> getResults(){

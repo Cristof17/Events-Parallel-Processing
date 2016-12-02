@@ -9,13 +9,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 
 public class Main {
 
 	private static int nrThreads = 0;
 	private static Worker[] workers;
-	private static ArrayList<Result> results;
+	private static Results results;
+	private static Semaphore semaphore;
 	
 	public static void main(String[] args){
 		
@@ -29,13 +32,30 @@ public class Main {
 		
 		//create the queue with the given size
 		WorkPool workPool = new WorkPool(nrThreads, Integer.parseInt(args[0]));
-		results = new ArrayList<Result>();
+		semaphore = new Semaphore(nrThreads);
+		results = new Results();
 		workers = new Worker[nrThreads];
 		for (int i = 0; i < nrThreads; ++i){
-			workers[i] = new Worker(workPool, args[i + 2], results);
+			workers[i] = new Worker(workPool, args[i + 2], results, semaphore);
 		}
 
-		generateEvents(workers, workPool);
+		
+		/**
+		 * Run logic 
+		 */
+		try {
+			semaphore.acquire(nrThreads);
+			generateEvents(workers, workPool);
+			semaphore.acquire(nrThreads);
+			writeOutput(results);
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/**
+		 * End of run logic
+		 */
 	}
 	
 	public static void writeOutput(Results results){
@@ -78,6 +98,23 @@ public class Main {
 		Collections.sort(squareResults);
 		Collections.sort(fibResults);
 		Collections.sort(factResults);
+		
+		for(Result primeResult : primeResults){
+			primeBuffer.append(primeResult.getVal() + "\r\n");
+		}
+		
+		for(Result squareResult : squareResults){
+			squareBuffer.append(squareResult.getVal() + "\r\n");
+		}
+		
+		for(Result fibResult : fibResults){
+			fibBuffer.append(fibResult.getVal() + "\r\n");
+		}
+		
+		for(Result factResult : factResults){
+			factBuffer.append(factResult.getVal() + "\r\n");
+		}
+
 		
 		primeBuffer	.flush(); 
 		factBuffer 	.flush();

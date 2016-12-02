@@ -4,6 +4,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 
 /**
  * Clasa ce reprezinta un thread worker.
@@ -11,12 +14,14 @@ import java.util.StringTokenizer;
 class Worker extends Thread {
 	private WorkPool wp;
 	private String filename;
-	private ArrayList<Result> results;
+	private Results results;
+	private Semaphore semaphore;
 
-	public Worker(WorkPool workpool, String filename,ArrayList<Result> results ) {
+	public Worker(WorkPool workpool, String filename,Results results, Semaphore semaphore ) {
 		this.wp = workpool;
 		this.filename = filename;
 		this.results = results;
+		this.semaphore = semaphore;
 	}
 
 	/**
@@ -102,6 +107,7 @@ class Worker extends Thread {
 			processEvent(e);
 		}
 		System.out.println("Thread-ul worker " + this.getName() + " s-a terminat...");
+		semaphore.release();
 	}
 	
 	private static boolean isPrime(int N){
@@ -156,7 +162,6 @@ class Worker extends Thread {
 	static int maxFibbo(int max){
 		int maxPos = -1;
 		for (int i = 0; i <= max; ++i){
-			System.out.println(fibbo(i, 1, 0) + " ");
 			if (fibbo(i, 1,0) <= max){				
 				maxPos = i;
 			}else
