@@ -1,0 +1,16 @@
+<project>
+
+	<property name="source" value="src"/>
+	<property name="destination" value="bin"/>
+	<property name="jarDestFile" value="eventqueue.jar"/>
+	<property name="mainClass" value="Main"/>
+
+	<target name="compile">
+		<javac srcdir="${source}" destdir="${destination}" debug="on"/>
+		<jar destfile="${jarDestFile}" basedir="${destination}">	
+			<manifest>
+				<attribute name="Main-Class" value="${mainClass}"/>
+			</manifest>
+		</jar>
+	</target>
+</project>
