@@ -142,8 +142,15 @@ class Worker extends Thread {
 	static int maxFact(int max){
 		int maxFact = -1;
 		for (int i = 0; i < max; ++i){
-			if (fact(i) <= max)
+			if (fact(i) <= max){
 				maxFact = i;
+				//if this else hadn't been here, fact(i) would get very big
+				//because of the representation of numbers in the backgroud
+				//TWO's complement of a big fact number, would get negative,
+				//and it would enter the if branch
+			}else{
+				break;
+			}
 		}
 		return maxFact;
 	}
