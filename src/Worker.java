@@ -59,9 +59,9 @@ class Worker extends Thread {
 			
 			while (line != null){
 				tokenizer = new StringTokenizer(line, " ,");
-				String N = tokenizer.nextToken();
-				String name = tokenizer.nextToken();
 				String time = tokenizer.nextToken();
+				String name = tokenizer.nextToken();
+				String N = tokenizer.nextToken();
 				line = fileReader.readLine();
 				
 				Event ev = null;
