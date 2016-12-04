@@ -5,6 +5,8 @@
 	<property name="jarDestFile" value="eventqueue.jar"/>
 	<property name="mainClass" value="Main"/>
 
+	<mkdir dir="${destination}"/>
+
 	<target name="compile">
 		<javac srcdir="${source}" destdir="${destination}" debug="on"/>
 	</target>
