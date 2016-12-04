@@ -7,6 +7,9 @@
 
 	<target name="compile">
 		<javac srcdir="${source}" destdir="${destination}" debug="on"/>
+	</target>
+
+	<target name="jar">
 		<jar destfile="${jarDestFile}" basedir="${destination}">	
 			<manifest>
 				<attribute name="Main-Class" value="${mainClass}"/>
