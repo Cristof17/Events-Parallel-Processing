@@ -31,3 +31,7 @@ tipului de eveniment.
 Prin faptul că procesarea unui eveniment de tip Fibo era foarte înceată deaorece
 era recursivă, am decis să implementez fibo, cu apeluri de funcție recursive, dar 
 care țin minte ultimele două rezultate ale funcției.
+
+Testarea am făcut-o pe mașina locală. Testarea de la testul 3 în sus durează mai mult
+de 10 minute. Am făcut un profiling pe cod și din rezultate a ieșit faptul că majoritatea
+timpului este petrectut în metoda WorkPool.putWord();
